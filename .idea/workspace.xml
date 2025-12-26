@@ -4,21 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f04896f0-ed0b-4174-a0af-8ad3dc18af38" name="Changes" comment="feat: add database session.py">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/movies.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/db/base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/exceptions/errors.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/repositories/movie_repo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/schemas/movie.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/scripts/seeddb.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/services/movie_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/db/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/db/session.py" afterDir="false" />
+    <list default="true" id="f04896f0-ed0b-4174-a0af-8ad3dc18af38" name="Changes" comment="feat: make gitignore">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +99,87 @@
       <option name="project" value="LOCAL" />
       <updated>1766747406425</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: add database base.py">
+      <option name="closed" value="true" />
+      <created>1766759378094</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759378094</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: add database models">
+      <option name="closed" value="true" />
+      <created>1766759389486</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759389486</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: add database schemas">
+      <option name="closed" value="true" />
+      <created>1766759402962</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759402962</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: add database repositories">
+      <option name="closed" value="true" />
+      <created>1766759415569</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759415569</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: add database services">
+      <option name="closed" value="true" />
+      <created>1766759424347</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759424347</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: add database controllers">
+      <option name="closed" value="true" />
+      <created>1766759432327</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759432327</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: add database exceptions">
+      <option name="closed" value="true" />
+      <created>1766759444428</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759444428</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: add database scripts">
+      <option name="closed" value="true" />
+      <created>1766759463516</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759463516</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix: make changes to database session">
+      <option name="closed" value="true" />
+      <created>1766759549880</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759549880</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: make gitignore">
+      <option name="closed" value="true" />
+      <created>1766759643553</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759643553</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -129,6 +197,16 @@
     <MESSAGE value="init: add base infrastructure" />
     <MESSAGE value="init: create application architecture" />
     <MESSAGE value="feat: add database session.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add database session.py" />
+    <MESSAGE value="feat: add database base.py" />
+    <MESSAGE value="feat: add database models" />
+    <MESSAGE value="feat: add database schemas" />
+    <MESSAGE value="feat: add database repositories" />
+    <MESSAGE value="feat: add database services" />
+    <MESSAGE value="feat: add database controllers" />
+    <MESSAGE value="feat: add database exceptions" />
+    <MESSAGE value="feat: add database scripts" />
+    <MESSAGE value="fix: make changes to database session" />
+    <MESSAGE value="feat: make gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: make gitignore" />
   </component>
 </project>
