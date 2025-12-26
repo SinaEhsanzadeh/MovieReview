@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional
 
 
@@ -39,7 +39,7 @@ class RatingCreate(BaseModel):
     score: int = Field(..., ge=1, le=10)
 
 
-    @validator("score")
+    @field_validator("score")
     def must_be_int(cls, v):
         if not isinstance(v, int):
             raise ValueError("Score must be an integer between 1 and 10")
