@@ -1,0 +1,61 @@
+from sqlalchemy.orm import Session
+from app.repositories.movie_repo import MovieRepository
+from app.models.models import Director, Genre
+from app.exceptions.errors import NotFoundError, ValidationError
+
+
+class MovieService:
+    def __init__(self, db: Session):
+        self.db = db
+        self.repo = MovieRepository(db)
+
+
+    def list_movies(self, page=1, page_size=10, title=None, release_year=None, genre=None):
+        total, items = self.repo.get_paginated(page, page_size, title, release_year, genre)
+        return {"page": page, "page_size": page_size, "total_items": total, "items": items}
+
+
+    def get_movie(self, movie_id: int):
+        m = self.repo.get_by_id(movie_id)
+        if not m:
+            raise NotFoundError("Movie not found")
+        # compute aggregates if not set
+        # (repo's get_by_id doesn't compute aggregates; recompute here)
+        from sqlalchemy import func
+        m.ratings_count = self.db.query(func.count)
+        return m
+
+
+    def create_movie(self, payload: dict):
+        # validate director
+        director = self.db.query(Director).get(payload["director_id"]) if payload.get("director_id") else None
+        if not director:
+            raise ValidationError("Invalid director_id")
+
+
+        # validate genres
+        if payload.get("genres"):
+            found = self.db.query(Genre).filter(Genre.id.in_(payload["genres"]))
+            found_count = found.count()
+            if found_count != len(payload["genres"]):
+                raise ValidationError("One or more genre ids are invalid")
+
+
+        movie = self.repo.create(payload["title"], payload["director_id"], payload.get("release_year"), payload.get("cast"))
+        if payload.get("genres"):
+            self.repo.add_genres(movie, payload["genres"])
+        self.db.commit()
+        self.db.refresh(movie)
+        return movie
+
+
+    def add_rating(self, movie_id: int, score: int):
+        movie = self.repo.get_by_id(movie_id)
+        if not movie:
+            raise NotFoundError("Movie not found")
+        if not isinstance(score, int) or score < 1 or score > 10:
+            raise ValidationError("Score must be an integer between 1 and 10")
+        rating = self.repo.create_rating(movie_id, score)
+        self.db.commit()
+        self.db.refresh(rating)
+        return rating
