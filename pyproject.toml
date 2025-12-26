@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "moviereview"
+version = "0.1.0"
+description = ""
+authors = ["Sina Ehsanzadeh <s.eh.81088135@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+fastapi = "^0.127.0"
+uvicorn = {extras = ["standard"], version = "^0.40.0"}
+sqlalchemy = "^2.0.45"
+asyncpg = "^0.31.0"
+alembic = "^1.17.2"
+pydantic = {extras = ["dotenv"], version = "^2.12.5"}
+python-dotenv = "^1.2.1"
+psycopg2-binary = "^2.9.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
