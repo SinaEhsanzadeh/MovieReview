@@ -1,0 +1,5 @@
+/app/db/__pycache__
+/alembic/__pycache__
+/.idea
+.idea/workspace.xml
+/.env
