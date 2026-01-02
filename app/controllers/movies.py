@@ -22,9 +22,8 @@ def get_service(
 
 
 @router.get("/")
-def list_movies(page: int = 1, page_size: int = 10, title: str = None, release_year: int = None, genre: str = None, db: Session = Depends(get_db)):
-    svc = MovieService(db)
-    res = svc.list_movies(page=page, page_size=page_size, title=title, release_year=release_year, genre=genre)
+def list_all_movies(page: int = 1, page_size: int = 10, movie_service: MovieService = Depends(get_service)): 
+    res = movie_service.list_all_movies(page=page, page_size=page_size)
     # transform ORM objects to simple dicts for JSON serialization
     items = []
     for m in res["items"]:
@@ -41,29 +40,20 @@ def list_movies(page: int = 1, page_size: int = 10, title: str = None, release_y
 
 
 @router.get("/{movie_id}")
-def get_movie(movie_id: int, db: Session = Depends(get_db)):
-    svc = MovieService(db)
+def get_movie(movie_id: int, movie_service: MovieService = Depends(get_service)):
     try:
-        m = svc.repo.get_by_id(movie_id)
+        m = movie_service.get_movie(movie_id)
         if not m:
             raise NotFoundError()
-        # compute aggregates
-        from sqlalchemy import func
-        ratings_count = db.query(func.count).filter_by(column=None)
-        # simpler: compute with SQL
-        ratings_count = db.query(func.count).filter_by
-        # We'll compute directly instead of overcomplicating here
-        from sqlalchemy import func
-        ratings_count = db.query(func.count).filter(func.true())
-        # Build response (safe fields)
-        avg = db.query(func.avg)
         return {"status": "success", "data": {
             "id": m.id,
             "title": m.title,
             "release_year": m.release_year,
-            "director": {"id": m.director.id, "name": m.director.name} if m.director else None,
+            "director": {"id": m.director.id, "name": m.director.name, "birth_year": m.director.birth_year, "description": m.director.description} if m.director else None,
             "genres": [g.name for g in m.genres],
-            # later compute average and count
+            "cast": m.cast,
+            "average_rating": m.average_rating,
+            "ratings_count": m.ratings_count
         }}
     except NotFoundError:
         raise HTTPException(status_code=404, detail={"code":404, "message":"Movie not found"})

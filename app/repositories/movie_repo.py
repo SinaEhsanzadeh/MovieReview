@@ -41,8 +41,18 @@ class SqlAlchemyMovieRepository(MovieRepository):
         self.db = db
 
 
-    def get_paginated(self, page: int = 1, page_size: int = 10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None) -> Tuple[int, List[Movie]]:
-        query = self.db.query(Movie)
+    def __get_ratings_count(self, movie_id: int) -> int:
+        ratings_count: int = self.db.query(func.count(MovieRating.id)).filter(MovieRating.movie_id == movie_id).scalar() or 0
+        return ratings_count
+
+
+    def __get_average_rating(self, movie_id: int) -> int:
+        average_rating: int = self.db.query(func.avg(MovieRating.score)).filter(MovieRating.movie_id == movie_id).scalar()
+        return average_rating
+
+
+    def __get_paginated(self, page: int = 1, page_size: int = 10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None) -> Tuple[int, List[Movie]]:
+        query = self.db.query(Movie) #return all movies
         if title:
             query = query.filter(Movie.title.ilike(f"%{title}%"))
         if release_year:
@@ -52,17 +62,28 @@ class SqlAlchemyMovieRepository(MovieRepository):
         total = query.count()
         items = query.offset((page - 1) * page_size).limit(page_size).all()
 
-
         # attach aggregates
         for m in items:
-            m.ratings_count = self.db.query(func.count(MovieRating.id)).filter(MovieRating.movie_id == m.id).scalar() or 0
-            avg = self.db.query(func.avg(MovieRating.score)).filter(MovieRating.movie_id == m.id).scalar()
-            m.average_rating = round(float(avg), 2) if avg is not None else None
-        return total, items
+            m.ratings_count = self.__get_ratings_count(m.id)
+            avg = self.__get_average_rating(m.id)
+            m.average_rating = round(avg, 2) if avg is not None else None
+        return total, items #returns total-count and list of all movies of current page, using tuple
 
 
+
+
+    def get_all(self, page: int = 1, page_size: int = 10) -> List[Movie]:
+        return self.__get_paginated(page, page_size, None, None, None)
+
+    
     def get_by_id(self, movie_id: int) -> Optional[Movie]:
-        return self.db.query(Movie).filter(Movie.id == movie_id).one_or_none()
+        fully_detailed_movie = self.db.query(Movie).filter(Movie.id == movie_id).one_or_none()
+        if not fully_detailed_movie:
+            raise NotFoundError("Movie not found. Invalid id.")
+        fully_detailed_movie.ratings_count = self.__get_ratings_count(movie_id)
+        avg = self.__get_average_rating(movie_id)
+        fully_detailed_movie.average_rating = round(avg, 2) if avg is not None else None
+        return fully_detailed_movie
 
 
     def create(self, title: str, director_id: int, release_year: Optional[int], cast: Optional[str]) -> Movie:

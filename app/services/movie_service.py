@@ -8,8 +8,8 @@ class MovieService:
         self.repo = movie_repo
 
 
-    def list_movies(self, page=1, page_size=10, title=None, release_year=None, genre=None):
-        total, items = self.repo.get_paginated(page, page_size, title, release_year, genre)
+    def list_all_movies(self, page=1, page_size=10):
+        total, items = self.repo.get_all(page, page_size)
         return {"page": page, "page_size": page_size, "total_items": total, "items": items}
 
 
@@ -17,10 +17,6 @@ class MovieService:
         m = self.repo.get_by_id(movie_id)
         if not m:
             raise NotFoundError("Movie not found")
-        # compute aggregates if not set
-        # (repo's get_by_id doesn't compute aggregates; recompute here)
-        from sqlalchemy import func
-        m.ratings_count = self.db.query(func.count)
         return m
 
 
