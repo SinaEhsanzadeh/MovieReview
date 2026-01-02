@@ -70,6 +70,12 @@ class SqlAlchemyMovieRepository(MovieRepository):
         return total, items #returns total-count and list of all movies of current page, using tuple
 
 
+    def _get_director(self, director_id: int) -> Optional[Director]:
+        return self.db.query(Director).filter(Director.id == director_id).one_or_none()
+
+
+    def _get_genres(self, genres: List[Genre]) -> Optional[List[Genre]]:
+        return self.db.query(Genre).filter(Genre.id.in_(genres)).all()
 
 
     def get_all(self, page: int = 1, page_size: int = 10) -> List[Movie]:
@@ -86,7 +92,7 @@ class SqlAlchemyMovieRepository(MovieRepository):
         return fully_detailed_movie
 
 
-    def create(self, title: str, director_id: int, release_year: Optional[int], cast: Optional[str]) -> Movie:
+    def create(self, title: str, director_id: int, release_year: int, cast: Optional[str]) -> Movie:
         movie = Movie(title=title, director_id=director_id, release_year=release_year, cast=cast)
         self.db.add(movie)
         self.db.flush()

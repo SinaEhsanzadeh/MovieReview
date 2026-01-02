@@ -60,25 +60,31 @@ def get_movie(movie_id: int, movie_service: MovieService = Depends(get_service))
 
 
 @router.post("/", status_code=201)
-def create_movie(payload: MovieCreate, db: Session = Depends(get_db)):
-    svc = MovieService(db)
+def create_movie(payload: MovieCreate, movie_service: MovieService = Depends(get_service)):
     try:
-        movie = svc.create_movie(payload.dict())
+        m = movie_service.create_movie(payload.dict())
     except ValidationError as e:
         raise HTTPException(status_code=422, detail={"code":422, "message": e.message})
 
-
-    return {"status": "success", "data": {"id": movie.id, "title": movie.title}}
+    return {"status": "success", "data": {
+            "id": m.id,
+            "title": m.title,
+            "release_year": m.release_year,
+            "director": {"id": m.director.id, "name": m.director.name} if m.director else None,
+            "genres": [g.name for g in m.genres],
+            "cast": m.cast,
+            "average_rating": None,
+            "ratings_count": 0
+        }}
 
 
 @router.post("/{movie_id}/ratings", status_code=201)
-def add_rating(movie_id: int, payload: RatingCreate, db: Session = Depends(get_db)):
-    svc = MovieService(db)
+def add_rating(movie_id: int, payload: RatingCreate, movie_service: MovieService = Depends(get_service)):
     try:
-        rating = svc.add_rating(movie_id, payload.score)
+        rating = movie_service.add_rating(movie_id, payload.score)
     except NotFoundError:
         raise HTTPException(status_code=404, detail={"code": 404, "message": "Movie not found"})
     except ValidationError as e:
         raise HTTPException(status_code=422, detail={"code": 422, "message": e.message})
 
-    return {"status": "success", "data": {"rating_id": rating.id, "movie_id": movie_id, "score": rating.score, "created_at": rating.created_at.isoformat()}}
+    return {"status": "success", "data": {"rating_id": rating.id, "movie_id": movie_id, "score": rating.score}, "created_at": rating.created_at.isoformat()}
