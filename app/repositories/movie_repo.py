@@ -58,7 +58,7 @@ class SqlAlchemyMovieRepository(MovieRepository):
         if release_year:
             query = query.filter(Movie.release_year == release_year)
         if genre:
-            query = query.join(movie_genres).join(Genre).filter(Genre.name == genre)
+            query = query.join("movie-genres").join(Genre).filter(Genre.name == genre)
         total = query.count()
         items = query.offset((page - 1) * page_size).limit(page_size).all()
 
