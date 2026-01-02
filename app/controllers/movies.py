@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from typing import List
+from typing import  Annotated
 
 from sqlalchemy.orm import Session
 
-from app.db.session import SessionLocal
+from app.db.session import get_db_session
 from app.services.movie_service import MovieService
+from app.repositories.movie_repo import SqlAlchemyMovieRepository
 from app.schemas.movie import MovieCreate, RatingCreate
 from app.exceptions.errors import NotFoundError, ValidationError
 
@@ -13,12 +14,11 @@ router = APIRouter(prefix="/api/v1/movies", tags=["movies"])
 
 
 # dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+def get_service(
+    session: Annotated[Session, Depends(get_db_session)],
+) -> MovieService:
+    repository = SqlAlchemyMovieRepository(session)
+    return MovieService(repository)
 
 
 @router.get("/")

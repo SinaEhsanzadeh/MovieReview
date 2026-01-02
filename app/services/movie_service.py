@@ -1,13 +1,11 @@
 from sqlalchemy.orm import Session
-from app.repositories.movie_repo import MovieRepository
-from app.models.models import Director, Genre
+from app.repositories.movie_repo import SqlAlchemyMovieRepository
 from app.exceptions.errors import NotFoundError, ValidationError
 
 
 class MovieService:
-    def __init__(self, db: Session):
-        self.db = db
-        self.repo = MovieRepository(db)
+    def __init__(self, movie_repo: SqlAlchemyMovieRepository):
+        self.repo = movie_repo
 
 
     def list_movies(self, page=1, page_size=10, title=None, release_year=None, genre=None):
