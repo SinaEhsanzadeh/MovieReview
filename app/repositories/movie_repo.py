@@ -1,10 +1,42 @@
+from typing import Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from typing import Optional, Tuple, List
-from app.models.models import Movie, MovieRating, Genre, Director, movie_genres
+from typing import Optional, Tuple, List, Protocol
+
+from app.models import Movie, MovieRating, Genre, Director
+from app.exceptions.errors import NotFoundError
 
 
-class MovieRepository:
+class MovieRepository(Protocol):
+    def __get_paginated(self, page: int = 1, page_size: int = 10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None) -> Tuple[int, List[Movie]]:
+        ...
+    def __get_ratings_count(self, movie_id: int) -> int:
+        ...
+    def __get_average_count(self, movie_id: int) -> int:
+        ...
+    def _get_director(self, director_id: int) -> Optional[Director]:
+        ...
+    def _get_genres(self, genres: List[Genre]) -> Optional[List[Genre]]:
+        ...
+    def get_all(self, page: int = 1, page_size: int = 10) -> List[Movie]:
+        ...
+    def get_filtered(self, page: int = 1, page_size: int = 10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None) -> List[Movie]:
+        ...
+    def get_by_id(self, movie_id: int) -> Optional[Movie]:
+        ...
+    def create(self, title: str, director_id: int, release_year: int, cast: Optional[str]) -> Movie:
+        ...
+    def add_genres(self, movie: Movie, genre_ids: List[int]) -> None:
+        ...
+    def delete(self, movie_id: int) -> None:
+        ...
+    def update(self, movie_id: int, title: str, director_id: int, release_year: int, cast: Optional[str]) -> Movie:
+        ...
+    def create_rating(self, movie_id: int, score: int) -> MovieRating:
+        ...
+
+
+class SqlAlchemyMovieRepository(MovieRepository):
     def __init__(self, db: Session):
         self.db = db
 
