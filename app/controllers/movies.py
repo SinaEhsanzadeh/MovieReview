@@ -1,12 +1,15 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from typing import  Annotated
+from fastapi import status
+from fastapi.responses import Response
+
+from fastapi import APIRouter, Depends, HTTPException
+from typing import  Annotated, Optional, List
 
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db_session
 from app.services.movie_service import MovieService
 from app.repositories.movie_repo import SqlAlchemyMovieRepository
-from app.schemas.movie import MovieCreate, RatingCreate
+from app.schemas.movie import MovieCreate, RatingCreate, MovieListItem, MovieSummaryOut, MovieFullInfoOut, MovieSingleItem
 from app.exceptions.errors import NotFoundError, ValidationError
 
 
@@ -21,26 +24,25 @@ def get_service(
     return MovieService(repository)
 
 
-@router.get("/")
-def list_all_movies(page: int = 1, page_size: int = 10, movie_service: MovieService = Depends(get_service)): 
-    res = movie_service.list_all_movies(page=page, page_size=page_size)
-    # transform ORM objects to simple dicts for JSON serialization
-    items = []
-    for m in res["items"]:
-        items.append({
-            "id": m.id,
-            "title": m.title,
-            "release_year": m.release_year,
-            "director": {"id": m.director.id, "name": m.director.name} if m.director else None,
-            "genres": [g.name for g in m.genres],
-            "average_rating": getattr(m, "average_rating", None),
-            "ratings_count": getattr(m, "ratings_count", 0),
-        })
-    return {"status": "success", "data": {"page": res["page"], "page_size": res["page_size"], "total_items": res["total_items"], "items": items}}
+@router.get("/", response_model=MovieListItem)
+def list_all_movies_with_query_params(page: int = 1, page_size: int = 10, movie_service: MovieService = Depends(get_service),
+                                        title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None):
+    res = movie_service.filter_movies(page, page_size, title, release_year, genre)
+
+    # Convert ORM objects to Pydantic models - schema handles genre conversion automatically
+    movie_items = [MovieSummaryOut.model_validate(m) for m in res["items"]]
+
+    return MovieListItem(
+        status="success",
+        page=res["page"],
+        page_size=res["page_size"],
+        total_items=res["total_items"],
+        data=movie_items
+    )
 
 
-@router.get("/{movie_id}")
-def get_movie(movie_id: int, movie_service: MovieService = Depends(get_service)):
+@router.get("/{movie_id}", response_model=MovieSingleItem)
+def get_movie_by_id(movie_id: int, movie_service: MovieService = Depends(get_service)):
     try:
         m = movie_service.get_movie(movie_id)
         if not m:

@@ -1,5 +1,5 @@
 from typing import Optional
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from sqlalchemy import func
 from typing import Optional, Tuple, List, Protocol
 
@@ -18,9 +18,9 @@ class MovieRepository(Protocol):
         ...
     def _get_genres(self, genres: List[Genre]) -> Optional[List[Genre]]:
         ...
-    def get_all(self, page: int = 1, page_size: int = 10) -> List[Movie]:
+    def get_all(self, page: int = 1, page_size: int = 10) -> Tuple[int, List[Movie]]:
         ...
-    def get_filtered(self, page: int = 1, page_size: int = 10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None) -> List[Movie]:
+    def get_filtered(self, page: int = 1, page_size: int = 10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None) -> Tuple[int, List[Movie]]:
         ...
     def get_by_id(self, movie_id: int) -> Optional[Movie]:
         ...
@@ -52,17 +52,21 @@ class SqlAlchemyMovieRepository(MovieRepository):
 
 
     def __get_paginated(self, page: int = 1, page_size: int = 10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None) -> Tuple[int, List[Movie]]:
-        query = self.db.query(Movie) #return all movies
+        query = self.db.query(Movie).options(selectinload(Movie.genres))
+
         if title:
             query = query.filter(Movie.title.ilike(f"%{title}%"))
         if release_year:
             query = query.filter(Movie.release_year == release_year)
         if genre:
-            query = query.join("movie-genres").join(Genre).filter(Genre.name == genre)
-        total = query.count()
+            # safest approach — uses EXISTS under the hood, no duplicate join
+            query = query.filter(Movie.genres.any(Genre.name == genre))
+
+        # total: if you had joins that could produce duplicates, use distinct:
+        total = query.distinct().count()
+
         items = query.offset((page - 1) * page_size).limit(page_size).all()
 
-        # attach aggregates
         for m in items:
             m.ratings_count = self.__get_ratings_count(m.id)
             avg = self.__get_average_rating(m.id)
@@ -78,10 +82,10 @@ class SqlAlchemyMovieRepository(MovieRepository):
         return self.db.query(Genre).filter(Genre.id.in_(genres)).all()
 
 
-    def get_all(self, page: int = 1, page_size: int = 10) -> List[Movie]:
-        return self.__get_paginated(page, page_size, None, None, None)
+    def get_filtered(self, page: int = 1, page_size: int = 10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None) -> Tuple[int, List[Movie]]:
+        return self.__get_paginated(page, page_size, title, release_year, genre)
 
-    
+
     def get_by_id(self, movie_id: int) -> Optional[Movie]:
         fully_detailed_movie = self.db.query(Movie).filter(Movie.id == movie_id).one_or_none()
         if not fully_detailed_movie:

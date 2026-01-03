@@ -1,16 +1,17 @@
-from sqlalchemy.orm import Session
+from app.models import Movie, MovieRating
 from app.repositories.movie_repo import SqlAlchemyMovieRepository
 from app.exceptions.errors import NotFoundError, ValidationError
 
+from typing import Optional
 
 class MovieService:
     def __init__(self, movie_repo: SqlAlchemyMovieRepository):
         self.repo = movie_repo
 
 
-    def list_all_movies(self, page=1, page_size=10):
-        total, items = self.repo.get_all(page, page_size)
-        return {"page": page, "page_size": page_size, "total_items": total, "items": items}
+    def filter_movies(self, page: int=1, page_size: int=10, title: Optional[str] = None, release_year: Optional[int] = None, genre: Optional[str] = None):
+        total, items = self.repo.get_filtered(page, page_size, title, release_year, genre)
+        return {"page": page, "page_size": page_size, "total_items": total, "items": items} 
 
 
     def get_movie(self, movie_id: int):
