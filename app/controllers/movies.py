@@ -47,41 +47,31 @@ def get_movie_by_id(movie_id: int, movie_service: MovieService = Depends(get_ser
         m = movie_service.get_movie(movie_id)
         if not m:
             raise NotFoundError()
-        return {"status": "success", "data": {
-            "id": m.id,
-            "title": m.title,
-            "release_year": m.release_year,
-            "director": {"id": m.director.id, "name": m.director.name, "birth_year": m.director.birth_year, "description": m.director.description} if m.director else None,
-            "genres": [g.name for g in m.genres],
-            "cast": m.cast,
-            "average_rating": m.average_rating,
-            "ratings_count": m.ratings_count
-        }}
+        movie = MovieFullInfoOut.model_validate(m)
+        return MovieSingleItem(
+            status="success",
+            data=[movie]
+        )
     except NotFoundError:
         raise HTTPException(status_code=404, detail={"code":404, "message":"Movie not found"})
 
 
-@router.post("/", status_code=201)
+@router.post("/", status_code=201, response_model=MovieSingleItem)
 def create_movie(payload: MovieCreate, movie_service: MovieService = Depends(get_service)):
     try:
         m = movie_service.create_movie(payload.dict())
     except ValidationError as e:
         raise HTTPException(status_code=422, detail={"code":422, "message": e.message})
 
-    return {"status": "success", "data": {
-            "id": m.id,
-            "title": m.title,
-            "release_year": m.release_year,
-            "director": {"id": m.director.id, "name": m.director.name} if m.director else None,
-            "genres": [g.name for g in m.genres],
-            "cast": m.cast,
-            "average_rating": None,
-            "ratings_count": 0
-        }}
+    movie = MovieFullInfoOut.model_validate(m)
+    return MovieSingleItem(
+        status="success",
+        data=[movie]
+    )
 
 
 @router.post("/{movie_id}/ratings", status_code=201)
-def add_rating(movie_id: int, payload: RatingCreate, movie_service: MovieService = Depends(get_service)):
+def add_rating_to_a_movie(movie_id: int, payload: RatingCreate, movie_service: MovieService = Depends(get_service)):
     try:
         rating = movie_service.add_rating(movie_id, payload.score)
     except NotFoundError:
