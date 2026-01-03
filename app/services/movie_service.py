@@ -51,3 +51,34 @@ class MovieService:
             raise ValidationError("Score must be an integer between 1 and 10")
         rating = self.repo.create_rating(movie_id, score)
         return rating
+
+    
+    def remove_movie(self, movie_id: int) -> None:
+        movie = self.get_movie(movie_id)
+        if not movie:
+            raise NotFoundError("Movie not found. Invalid id")
+        self.repo.delete(movie)
+
+
+    def update_movie(self, movie_id: int, payload: dict) -> Movie:
+        movie = self.get_movie(movie_id)
+        if not movie:
+            raise NotFoundError("Movie not found. Invalid id")
+
+        # validate director
+        director = self.repo._get_director(payload["director_id"])
+        if not director:
+            raise ValidationError("Invalid director_id")
+
+        # validate genres
+        found = self.repo._get_genres(payload["genres"])
+        found_count = len(found)
+        if found_count != len(payload["genres"]):
+            raise ValidationError("One or more genre ids are invalid")
+
+        movie.title = payload["title"]
+        movie.release_year = payload["release_year"]
+        movie.cast = payload["cast"]
+        if payload.get("genres"):
+            self.repo.add_genres(movie, payload["genres"])
+        return self.repo.update(movie)

@@ -113,3 +113,17 @@ class SqlAlchemyMovieRepository(MovieRepository):
         self.db.add(rating)
         self.db.flush()
         return rating
+
+    def delete(self, movie: Movie) -> None:
+        self.db.delete(movie)
+        self.db.flush()
+        return 
+        
+    def update(self, updated_movie: Movie) -> Movie:
+        orm_movie = self.db.query(Movie).filter(Movie.id == updated_movie.id).one_or_none()
+        orm_movie.title = updated_movie.title
+        orm_movie.release_year = updated_movie.release_year
+        orm_movie.genres = updated_movie.genres
+        orm_movie.cast = updated_movie.cast
+        self.db.commit()
+        return orm_movie

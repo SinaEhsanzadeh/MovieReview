@@ -80,3 +80,33 @@ def add_rating_to_a_movie(movie_id: int, payload: RatingCreate, movie_service: M
         raise HTTPException(status_code=422, detail={"code": 422, "message": e.message})
 
     return {"status": "success", "data": {"rating_id": rating.id, "movie_id": movie_id, "score": rating.score}, "created_at": rating.created_at.isoformat()}
+
+
+@router.delete("/{movie_id}", status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
+def delete_movie_by_id(movie_id: int, movie_service: MovieService = Depends(get_service)):
+    try:
+        movie_service.remove_movie(movie_id)
+    except NotFoundError:
+        raise HTTPException(status_code=404, detail={"code": 404, "message": "Movie not found"})
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.put("/{movie_id}", response_model=MovieSingleItem)
+def update_movie_by_id(movie_id: int, payload: MovieCreate,
+                movie_service: MovieService = Depends(get_service)):
+    try:
+        m = movie_service.update_movie(movie_id, payload.dict())
+    except NotFoundError:
+        raise HTTPException(status_code=404, detail={"code": 404, "message": "Movie not found"})
+    except ValidationError as e:
+        raise HTTPException(status_code=422, detail={"code": 422, "message": e.message})
+    
+    movie = MovieFullInfoOut.model_validate(m)
+    return MovieSingleItem(
+        status="success",
+        data=[movie]
+    )
+    
+
+
+
