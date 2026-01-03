@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f04896f0-ed0b-4174-a0af-8ad3dc18af38" name="Changes" comment="" />
+    <list default="true" id="f04896f0-ed0b-4174-a0af-8ad3dc18af38" name="Changes" comment="chore: delete unnecessary file" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="develop" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;SinaEhsanzadeh&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/SinaEhsanzadeh/MovieReview.git&quot;,
+    &quot;accountId&quot;: &quot;57756a2b-a3c1-4bc5-9810-67c5d19867ff&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="37NVVDYVRMNSRZ6ViUAXrjpAvYQ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -22,8 +49,10 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "feature/rdb-backend",
     "junie.onboarding.icon.badge.shown": "true",
     "to.speed.mode.migration.done": "true"
   }
@@ -43,6 +72,147 @@
       <option name="presentableId" value="Default" />
       <updated>1766743540920</updated>
     </task>
+    <task id="LOCAL-00001" summary="init: add base infrastructure">
+      <option name="closed" value="true" />
+      <created>1766743930336</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1766743930336</updated>
+    </task>
+    <task id="LOCAL-00002" summary="init: create application architecture">
+      <option name="closed" value="true" />
+      <created>1766744308093</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1766744308093</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: add database session.py">
+      <option name="closed" value="true" />
+      <created>1766747406425</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1766747406425</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: add database base.py">
+      <option name="closed" value="true" />
+      <created>1766759378094</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759378094</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: add database models">
+      <option name="closed" value="true" />
+      <created>1766759389486</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759389486</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: add database schemas">
+      <option name="closed" value="true" />
+      <created>1766759402962</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759402962</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: add database repositories">
+      <option name="closed" value="true" />
+      <created>1766759415569</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759415569</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: add database services">
+      <option name="closed" value="true" />
+      <created>1766759424347</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759424347</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: add database controllers">
+      <option name="closed" value="true" />
+      <created>1766759432327</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759432327</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: add database exceptions">
+      <option name="closed" value="true" />
+      <created>1766759444428</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759444428</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: add database scripts">
+      <option name="closed" value="true" />
+      <created>1766759463516</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759463516</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix: make changes to database session">
+      <option name="closed" value="true" />
+      <created>1766759549880</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759549880</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: make gitignore">
+      <option name="closed" value="true" />
+      <created>1766759643553</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1766759643553</updated>
+    </task>
+    <task id="LOCAL-00014" summary="chore: delete unnecessary file">
+      <option name="closed" value="true" />
+      <created>1766768352695</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1766768352695</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init: add base infrastructure" />
+    <MESSAGE value="init: create application architecture" />
+    <MESSAGE value="feat: add database session.py" />
+    <MESSAGE value="feat: add database base.py" />
+    <MESSAGE value="feat: add database models" />
+    <MESSAGE value="feat: add database schemas" />
+    <MESSAGE value="feat: add database repositories" />
+    <MESSAGE value="feat: add database services" />
+    <MESSAGE value="feat: add database controllers" />
+    <MESSAGE value="feat: add database exceptions" />
+    <MESSAGE value="feat: add database scripts" />
+    <MESSAGE value="fix: make changes to database session" />
+    <MESSAGE value="feat: make gitignore" />
+    <MESSAGE value="chore: delete unnecessary file" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: delete unnecessary file" />
   </component>
 </project>
