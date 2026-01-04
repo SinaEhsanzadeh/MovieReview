@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 
-
-DATABASE_URL = "postgresql+psycopg2://sam:sami8490@localhost:5555/movieDB"
+from app.db.session import DATABASE_URL
 
 engine = create_engine(DATABASE_URL)
 
