@@ -65,9 +65,9 @@ CREATE TABLE tmdb_credits_raw (
 -- Set client encoding to UTF8 to handle special characters in CSV files
 SET client_encoding = 'UTF8';
 
-\copy tmdb_movies_raw (budget,genres,homepage,id,keywords,original_language,original_title,overview,popularity,production_companies,production_countries,release_date,revenue,runtime,spoken_languages,status,tagline,title,vote_average,vote_count) FROM 'tmdb_5000_movies_utf8.csv' CSV HEADER;
+\copy tmdb_movies_raw (budget,genres,homepage,id,keywords,original_language,original_title,overview,popularity,production_companies,production_countries,release_date,revenue,runtime,spoken_languages,status,tagline,title,vote_average,vote_count) FROM '/scripts/tmdb_5000_movies_utf8.csv' CSV HEADER;
 
-\copy tmdb_credits_raw (movie_id,title,"cast",crew) FROM 'tmdb_5000_credits_utf8.csv' CSV HEADER;
+\copy tmdb_credits_raw (movie_id,title,"cast",crew) FROM '/scripts/tmdb_5000_credits_utf8.csv' CSV HEADER;
 
 ------------------------------- 5. Insert genres (Real data from TMDB) -----------------------------
 INSERT INTO genres(name, description)

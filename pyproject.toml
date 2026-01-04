@@ -6,7 +6,7 @@ authors = ["Sina Ehsanzadeh <s.eh.81088135@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = "^3.12"
 fastapi = "^0.127.0"
 uvicorn = {extras = ["standard"], version = "^0.40.0"}
 sqlalchemy = "^2.0.45"
@@ -20,3 +20,7 @@ psycopg2-binary = "^2.9.11"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.logging]
+level = "INFO"
+format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
