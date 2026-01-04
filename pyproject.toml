@@ -2,7 +2,7 @@
 name = "moviereview"
 version = "0.1.0"
 description = ""
-authors = ["Sina Ehsanzadeh <s.eh.81088135@gmail.com>"]
+authors = ["Sina Ehsanzadeh <s.eh.81088135@gmail.com>", "Sam Ghorbani-40212038 <https://sami-gh05.github.io/personal-portfolio-website/>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
