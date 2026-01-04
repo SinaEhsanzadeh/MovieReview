@@ -83,7 +83,7 @@ MovieReview/
 2. **Create `.env` file in project root**
    See .env.example file.
 
-3. **Configure Environment variables within `docker-compose.yml` file for db service
+3. **Configure Environment variables within `docker-compose.yml` file for db service**
   - `POSTGRES_USER`
   - `POSTGRES_PASSWORD`
   - `POSTGRES_DB`
