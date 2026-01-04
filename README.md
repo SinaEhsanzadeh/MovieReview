@@ -80,31 +80,31 @@ MovieReview/
   cd MovieReview
   ```
 
-2. **Create `.env` file in project root**
+### 2. **Create `.env` file in project root**
    See .env.example file.
 
-3. **Configure Environment variables within `docker-compose.yml` file for db service**
+### 3. **Configure Environment variables within `docker-compose.yml` file for db service**
   - `POSTGRES_USER`
   - `POSTGRES_PASSWORD`
   - `POSTGRES_DB`
   - `ports`
   - `DATABASE_URL`
 
-5. **Start the application** (migrations apply automatically on startup)
+### 4. **Start the application** (migrations apply automatically on startup)
    ```bash
    docker compose up --build -d
    ```
 
-6. **Seed initial data into db**
+### 5. **Seed initial data into db**
    ```bash
    docker-compose exec db psql -U <username> -d <database name> -f /scripts/seeddb.sql
    ```
 
-7. **Check logs of routers**
+### 6. **Check logs of routers**
    ```bash
    docker-compose logs -f app
    ```
-This command streams the application logs in real time, allowing you to monitor router activity and see logs generated after each request.
+  This command streams the application logs in real time, allowing you to monitor router activity and see logs generated after each request.
 
 ✅ The application is now ready. You can access all routes via Swagger.
 
