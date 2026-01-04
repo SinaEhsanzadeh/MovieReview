@@ -69,7 +69,7 @@ MovieReview/
 - alembic (database migrations)
 - fastapi using uvicorn
 - pydantic (making schemas and their validation standard)
-- 
+  
 ## 🛠️ Installation & Setup
 
 ### Using docker
